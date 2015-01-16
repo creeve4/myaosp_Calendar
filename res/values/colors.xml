@@ -167,9 +167,13 @@
 
     <color name="recurrence_picker_background">#fff2f2f2</color>
     <color name="recurrence_bubble_text_normal">#ff737373</color>
+<<<<<<< HEAD
     
     <color name="fab_theme_color">#da4336</color>
     <color name="fab_theme_color_dark">#ffc33c33</color>
     <color name="fab_theme_color_accent">#0288d1</color>
     <color name="floating_action_button_icon_color">#ffffff</color>
+=======
+    <color name="recurrence_buble_background">#ff36b5e4</color>
+>>>>>>> 241a809... Calendar: fix recurrence picker switch
 </resources>
