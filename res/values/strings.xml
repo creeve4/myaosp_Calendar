@@ -750,4 +750,8 @@
 
     <!-- Do Not Translate.  Sender identity for global notification synchronization. -->
     <string name="notification_sender_id"></string>
+    
+    <!-- Label values for the default start page preference. -->
+    <string name="default_start_title">Default view</string>
+    <string name="default_start_last">Previously used view</string>
 </resources>
