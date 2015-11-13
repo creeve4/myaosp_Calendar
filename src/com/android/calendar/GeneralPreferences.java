@@ -111,7 +111,7 @@ public class GeneralPreferences extends PreferenceFragment implements
     static final String KEY_HOME_TZ = "preferences_home_tz";
 
     // Default preference values
-    public static final String DEFAULT_DEFAULT_START = "1";
+    public static final String DEFAULT_DEFAULT_START = "-2";
     public static final int DEFAULT_START_VIEW = CalendarController.ViewType.WEEK;
     public static final int DEFAULT_DETAILED_VIEW = CalendarController.ViewType.DAY;
     public static final boolean DEFAULT_SHOW_WEEK_NUM = false;

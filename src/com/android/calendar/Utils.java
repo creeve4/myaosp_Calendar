@@ -236,7 +236,7 @@ public class Utils {
         // Check if the user wants the last view or the default startup view
         int defaultStart = Integer.valueOf(prefs.getString(GeneralPreferences.KEY_DEFAULT_START,
                 GeneralPreferences.DEFAULT_DEFAULT_START));
-        if (defaultStart == 1) {
+        if (defaultStart == -2) {
             // Return the last view used
             return prefs.getInt(
                     GeneralPreferences.KEY_START_VIEW, GeneralPreferences.DEFAULT_START_VIEW);
