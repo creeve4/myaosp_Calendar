@@ -21,15 +21,19 @@
         android:alphabeticShortcut="t"
         android:title="@string/goto_today"
         android:icon="@drawable/today_icon"
-        android:showAsAction="ifRoom"
-        android:orderInCategory="1" />
+        android:showAsAction="withText|ifRoom" />
+    <item
+        android:id="@+id/action_create_event"
+        android:alphabeticShortcut="n"
+        android:title="@string/event_create"
+        android:icon="@drawable/ic_menu_add_event_holo_light"
+        android:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_refresh"
         android:alphabeticShortcut="r"
-        android:title="@string/calendar_refresh"
-        android:icon="@drawable/ic_menu_refresh_holo_light"
         android:showAsAction="never"
-        android:orderInCategory="3" />
+        android:title="@string/calendar_refresh"
+        android:icon="@drawable/ic_menu_refresh_holo_light" />
     <item
         android:id="@+id/action_search"
         android:alphabeticShortcut="f"
@@ -37,19 +41,21 @@
         android:icon="@drawable/ic_menu_search_holo_light"
         android:showAsAction="never|collapseActionView"
         android:actionViewClass="android.widget.SearchView"
-        android:imeOptions="actionSearch"
-        android:orderInCategory="4" />
+        android:imeOptions="actionSearch" />
     <item
         android:id="@+id/action_select_visible_calendars"
         android:title="@string/menu_select_visible_calendars"
         android:icon="@drawable/ic_menu_select_visible_calendars_holo_light"
-        android:showAsAction="never"
-        android:orderInCategory="5" />
+        android:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
         android:alphabeticShortcut="s"
-        android:title="@string/menu_preferences"
-        android:icon="@drawable/ic_menu_settings_holo_light"
         android:showAsAction="never"
-        android:orderInCategory="10" />
+        android:title="@string/menu_preferences"
+        android:icon="@drawable/ic_menu_settings_holo_light" />
+    <item
+        android:id="@+id/action_hide_controls"
+        android:alphabeticShortcut="h"
+        android:showAsAction="never"
+        android:title="@string/hide_controls" />
 </menu>
