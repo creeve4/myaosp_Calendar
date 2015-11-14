@@ -49,7 +49,7 @@ import com.android.calendar.Utils;
 
 
 /**
- * Allows the user to quickly create a new all-day event from the calendar's month view.
+ * Allows the user to quickly create a new event from the calendar's month view.
  */
 public class CreateEventDialogFragment extends DialogFragment implements TextWatcher {
 
@@ -161,8 +161,7 @@ public class CreateEventDialogFragment extends DialogFragment implements TextWat
                         public void onClick(DialogInterface dialog, int which) {
                             mController.sendEventRelatedEventWithExtraWithTitleWithCalendarId(this,
                                     EventType.CREATE_EVENT, -1, mDateInMillis,
-                                    mDateInMillis + DateUtils.DAY_IN_MILLIS, 0, 0,
-                                    CalendarController.EXTRA_CREATE_ALL_DAY, -1,
+                                    mDateInMillis + DateUtils.HOUR_IN_MILLIS, 0, 0, 0, -1,
                                     mEventTitle.getText().toString(),
                                     mCalendarId);
                             dismiss();
@@ -206,9 +205,9 @@ public class CreateEventDialogFragment extends DialogFragment implements TextWat
 
     private void createAllDayEvent() {
         mModel.mStart = mDateInMillis;
-        mModel.mEnd = mDateInMillis + DateUtils.DAY_IN_MILLIS;
+        mModel.mEnd = mDateInMillis + DateUtils.HOUR_IN_MILLIS;
         mModel.mTitle = mEventTitle.getText().toString();
-        mModel.mAllDay = true;
+        mModel.mAllDay = false;
         mModel.mCalendarId = mCalendarId;
         mModel.mOwnerAccount = mCalendarOwner;
 
