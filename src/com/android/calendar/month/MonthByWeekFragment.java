@@ -83,7 +83,7 @@ public class MonthByWeekFragment extends SimpleDayPickerFragment implements
     // How long to wait after scroll stops before starting the loader
     // Using scroll duration because scroll state changes don't update
     // correctly when a scroll is triggered programmatically.
-    private static final int LOADER_DELAY = 200;
+    private static final int LOADER_DELAY = 100;
     // The minimum time between requeries of the data if the db is
     // changing
     private static final int LOADER_THROTTLE_DELAY = 500;
