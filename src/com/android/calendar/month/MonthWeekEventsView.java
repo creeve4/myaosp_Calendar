@@ -656,23 +656,6 @@ public class MonthWeekEventsView extends SimpleWeekView {
         }
     }
 
-// Edit
-        boolean isFocusMonth = mFocusDay[i];
-        mMonthNumPaint.setColor(isFocusMonth ? mMonthNumColor : mMonthNumOtherColor);
-        for (; i < numCount; i++) {
-            if (mHasToday && todayIndex == i) {
-                if (i + 1 < numCount) {
-                    // Make sure the color will be set back on the next
-                    // iteration
-                    isFocusMonth = !mFocusDay[i + 1];
-                }
-            } else if (mFocusDay[i] != isFocusMonth) {
-                isFocusMonth = mFocusDay[i];
-            }
-        }
-
-
-
     // Draw the "clicked" color on the tapped day
     private void drawClick(Canvas canvas) {
         if (mClickedDayIndex != -1) {
