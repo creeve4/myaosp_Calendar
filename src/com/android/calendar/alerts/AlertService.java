@@ -106,7 +106,7 @@ public class AlertService extends Service {
     private static final int MINUTE_MS = 60 * 1000;
 
     // The grace period before changing a notification's priority bucket.
-    private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 60 * MINUTE_MS;
+    private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 720 * MINUTE_MS;
 
     // Hard limit to the number of notifications displayed.
     public static final int MAX_NOTIFICATIONS = 20;
