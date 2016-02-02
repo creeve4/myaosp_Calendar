@@ -598,10 +598,7 @@ public class AgendaByDayAdapter extends BaseAdapter {
     public boolean isFirstDayAfterYesterday(int position) {
         int headerPos = getHeaderPosition(position);
         RowInfo row = mRowInfo.get(headerPos);
-        if (row != null) {
-            return row.mFirstDayAfterYesterday;
-        }
-        return false;
+        return row.mFirstDayAfterYesterday;
     }
 
     /**
