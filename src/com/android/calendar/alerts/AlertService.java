@@ -107,6 +107,7 @@ public class AlertService extends Service {
 
     // The grace period before changing a notification's priority bucket.
     private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 720 * MINUTE_MS;
+    private static final int GRACE_PERIOD_MS = 15 * MINUTE_MS;
 
     // Hard limit to the number of notifications displayed.
     public static final int MAX_NOTIFICATIONS = 20;
@@ -200,7 +201,6 @@ public class AlertService extends Service {
         }
 
         if (providerReminder ||
-                action.equals(Intent.ACTION_PROVIDER_CHANGED) ||
                 action.equals(android.provider.CalendarContract.ACTION_EVENT_REMINDER) ||
                 action.equals(AlertReceiver.EVENT_REMINDER_APP_ACTION) ||
                 action.equals(Intent.ACTION_LOCALE_CHANGED)) {
@@ -780,7 +780,7 @@ public class AlertService extends Service {
                     boolean dropOld;
                     if (newStartInterval < 0 && oldStartInterval > 0) {
                         // Use this reminder if this event started recently
-                        dropOld = Math.abs(newStartInterval) < MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
+                        dropOld = Math.abs(newStartInterval) < GRACE_PERIOD_MS;
                     } else {
                         // ... or if this one has a closer start time.
                         dropOld = Math.abs(newStartInterval) < Math.abs(oldStartInterval);
@@ -834,15 +834,15 @@ public class AlertService extends Service {
     }
 
     /**
-     * High priority cutoff should be 1/4 event duration or 15 min, whichever is longer.
+     * High priority cutoff.
      */
     private static long getGracePeriodMs(long beginTime, long endTime, boolean allDay) {
         if (allDay) {
             // We don't want all day events to be high priority for hours, so automatically
             // demote these after 15 min.
-            return MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
+            return GRACE_PERIOD_MS;
         } else {
-            return Math.max(MIN_DEPRIORITIZE_GRACE_PERIOD_MS, ((endTime - beginTime) / 4));
+            return MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
         }
     }
 
@@ -883,7 +883,7 @@ public class AlertService extends Service {
         }
         addNotificationOptions(notification, quietUpdate, tickerText,
                 prefs.getDefaultVibrate(), ringtone,
-                true); /* Show the LED for these non-expired events */
+                false); /* Don't show the LED for these non-expired events */
 
         // Post the notification.
         notificationMgr.notify(notificationId, notification);
