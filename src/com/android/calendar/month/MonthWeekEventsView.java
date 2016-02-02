@@ -330,6 +330,7 @@ public class MonthWeekEventsView extends SimpleWeekView {
         mMonthEventExtraOtherColor = res.getColor(R.color.month_event_extra_other_color);
         mMonthBGTodayColor = res.getColor(R.color.month_today_bgcolor);
         mMonthBGOtherColor = res.getColor(R.color.month_other_bgcolor);
+        mMonthBGFocusMonthColor = res.getColor(R.color.month_focus_month_bgcolor);
         mMonthBGColor = res.getColor(R.color.month_bgcolor);
         mDaySeparatorInnerColor = res.getColor(R.color.month_grid_lines);
         mTodayAnimateColor = res.getColor(R.color.today_highlight_color);
@@ -630,7 +631,24 @@ public class MonthWeekEventsView extends SimpleWeekView {
             i++;
             offset++;
         }
-        if (!mOddMonth[i]) {
+        if (mFocusDay[i]) {
+            while (++i < mOddMonth.length && mFocusDay[i])
+                ;
+            r.right = computeDayLeftPosition(i - offset);
+            r.left = 0;
+            p.setColor(mMonthBGFocusMonthColor);
+            canvas.drawRect(r, p);
+            // compute left edge for i, set up r, draw
+        } else if (mFocusDay[(i = mFocusDay.length - 1)]) {
+            while (--i >= offset && mFocusDay[i])
+                ;
+            i++;
+            // compute left edge for i, set up r, draw
+            r.right = mWidth;
+            r.left = computeDayLeftPosition(i - offset);
+            p.setColor(mMonthBGFocusMonthColor);
+            canvas.drawRect(r, p);
+        } else if (!mOddMonth[i]) {
             while (++i < mOddMonth.length && !mOddMonth[i])
                 ;
             r.right = computeDayLeftPosition(i - offset);
