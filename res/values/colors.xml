@@ -91,7 +91,7 @@
     <!-- Text color of declined events in agenda view -->
     <color name="agenda_item_declined_color">#66333333</color>
     <!-- Text color of non-declined events in agenda view -->
-    <color name="agenda_item_standard_color">#FF333333</color>
+    <color name="agenda_item_standard_color">#FF000000</color>
     <!-- Background Color of present/future events in agenda view  -->
     <color name="agenda_day_bar_background_color">#FFFFFFFF</color>
     <!-- Background Color of past events in agenda view  -->
@@ -107,9 +107,9 @@
     <!-- Color of the event location's text in an agenda item  -->
     <color name="agenda_item_where_declined_text_color">#66666666</color>
     <!-- Color of text in the calendar view selection menu -->
-    <color name="calendar_view_switch_menu_text_color">#FF000000</color>
+    <color name="calendar_view_switch_menu_text_color">#FFFFFFFF</color>
     <!-- Light color of text in the calendar view selection menu -->
-    <color name="calendar_view_switch_menu_text_color_light">#FF333333</color>
+    <color name="calendar_view_switch_menu_text_color_light">#FFcccccc</color>
     <!-- Color of the separator between items in the agenda list -->
     <color name="agenda_list_separator_color">#FFBBBBBB</color>
     <!-- Text color of a selected items in the agenda list - trumps all other text colors -->
@@ -153,6 +153,8 @@
     <color name="appwidget_week">@android:color/white</color>
     <color name="appwidget_month">#ffEEEEEE</color>
 
+    <color name="edit_event_action_text_color">#FFFFFFFF</color>
+
     <!-- Text color of declined events in widget view -->
     <color name="appwidget_item_declined_color">#66333333</color>
     <!-- Text color of non-declined events in widget view -->
@@ -168,8 +170,10 @@
     <color name="recurrence_picker_background">#fff2f2f2</color>
     <color name="recurrence_bubble_text_normal">#ff737373</color>
 
-    <color name="fab_theme_color">#00a014</color>
-    <color name="fab_theme_color_dark">#ff008010</color>
-    <color name="fab_theme_color_accent">#0288d1</color>
+    <color name="fab_color">#2e7d32</color>
     <color name="floating_action_button_icon_color">#ffffff</color>
+    
+    <color name="accent">#2e7d32</color>
+    <color name="primary_color">#2e7d32</color>
+    <color name="primary_dark_color">#1B5E20</color>
 </resources>
