@@ -149,6 +149,7 @@ public class MonthWeekEventsView extends SimpleWeekView {
     protected int mMonthBGColor;
     protected int mMonthBGOtherColor;
     protected int mMonthBGTodayColor;
+    protected int mMonthBGFocusMonthColor;
     protected int mMonthNumColor;
     protected int mMonthNumOtherColor;
     protected int mMonthNumTodayColor;

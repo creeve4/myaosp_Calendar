@@ -108,9 +108,9 @@
     <!-- Color of the event location's text in an agenda item  -->
     <color name="agenda_item_where_declined_text_color">#66666666</color>
     <!-- Color of text in the calendar view selection menu -->
-    <color name="calendar_view_switch_menu_text_color">#FFFFFFFF</color>
+    <color name="calendar_view_switch_menu_text_color">#FF000000</color>
     <!-- Light color of text in the calendar view selection menu -->
-    <color name="calendar_view_switch_menu_text_color_light">#FFcccccc</color>
+    <color name="calendar_view_switch_menu_text_color_light">#FF333333</color>
     <!-- Color of the separator between items in the agenda list -->
     <color name="agenda_list_separator_color">#FFBBBBBB</color>
     <!-- Text color of a selected items in the agenda list - trumps all other text colors -->
@@ -171,10 +171,11 @@
     <color name="recurrence_picker_background">#fff2f2f2</color>
     <color name="recurrence_bubble_text_normal">#ff737373</color>
 
-    <color name="fab_color">#2e7d32</color>
+    <color name="fab_color">#43A047</color>
     <color name="floating_action_button_icon_color">#ffffff</color>
     
-    <color name="accent">#2e7d32</color>
-    <color name="primary_color">#2e7d32</color>
+    <color name="accent">#4CAF50</color>
+    <color name="primary_color">#388E3C</color>
     <color name="primary_dark_color">#1B5E20</color>
+    <color name="white">#FFFFFF</color>
 </resources>
