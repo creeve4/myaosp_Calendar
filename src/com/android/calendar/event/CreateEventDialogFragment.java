@@ -154,7 +154,8 @@ public class CreateEventDialogFragment extends DialogFragment implements TextWat
                             dismiss();
                         }
                     })
-            .setNeutralButton(R.string.edit_label,
+            .setNeutralButton(android.R.string.cancel, null)
+            .setNegativeButton(R.string.edit_label,
                     new DialogInterface.OnClickListener() {
 
                         @Override
@@ -167,7 +168,6 @@ public class CreateEventDialogFragment extends DialogFragment implements TextWat
                             dismiss();
                         }
                     })
-            .setNegativeButton(android.R.string.cancel, null)
             .create();
 
         return mAlertDialog;
