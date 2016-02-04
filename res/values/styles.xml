@@ -265,6 +265,10 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="RecurrenceDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
+
     <style name="NotificationPrimaryText" parent="@android:style/TextAppearance.StatusBar.EventContent.Title" />
 
     <style name="NotificationSecondaryText" parent="@android:style/TextAppearance.Material">
