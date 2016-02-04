@@ -129,7 +129,7 @@ public class EditEventFragment extends Fragment implements EventHandler, OnColor
     private Activity mActivity;
     private final Done mOnDone = new Done();
 
-    private boolean mSaveOnDetach = true;
+    private boolean mSaveOnDetach = false;
     private boolean mIsReadOnly = false;
     public boolean mShowModifyDialogOnLaunch = false;
     private boolean mShowColorPalette = false;
