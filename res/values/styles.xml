@@ -167,14 +167,6 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="Sync" parent="@android:style/Theme.Material.Light.DarkActionBar">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:colorPrimary">@color/primary_color</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark_color</item>
-        <item name="android:colorAccent">@color/accent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
-
     <style name="Settings" parent="@android:style/Theme.Material.Light.DarkActionBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:colorPrimary">@color/primary_color</item>
@@ -185,8 +177,8 @@
 
     <style name="CalendarTheme.WithActionBar" parent="@android:style/Theme.Material.Light.DarkActionBar">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:colorPrimary">@color/primary_color</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark_color</item>
+        <item name="android:colorPrimary">@color/action_bar_color</item>
+        <item name="android:colorPrimaryDark">@color/action_bar_dark_color</item>
         <item name="android:colorAccent">@color/accent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
