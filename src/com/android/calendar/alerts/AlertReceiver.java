@@ -345,11 +345,6 @@ public class AlertReceiver extends BroadcastReceiver {
                         resources.getString(R.string.email_guests_label), emailIntent);
                 numActions++;
             }
-            if (snoozeIntent != null && numActions < MAX_NOTIF_ACTIONS) {
-                notificationBuilder.addAction(R.drawable.ic_alarm_holo_dark,
-                        resources.getString(R.string.snooze_label), snoozeIntent);
-                numActions++;
-            }
             return notificationBuilder.getNotification();
 
         } else {
