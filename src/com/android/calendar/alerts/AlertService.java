@@ -107,6 +107,7 @@ public class AlertService extends Service {
 
     // The grace period before changing a notification's priority bucket.
     private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 720 * MINUTE_MS;
+    private static final int GRACE_PERIOD_MS = 15 * MINUTE_MS
 
     // Hard limit to the number of notifications displayed.
     public static final int MAX_NOTIFICATIONS = 20;
@@ -779,7 +780,7 @@ public class AlertService extends Service {
                     boolean dropOld;
                     if (newStartInterval < 0 && oldStartInterval > 0) {
                         // Use this reminder if this event started recently
-                        dropOld = Math.abs(newStartInterval) < MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
+                        dropOld = Math.abs(newStartInterval) < GRACE_PERIOD_MS;
                     } else {
                         // ... or if this one has a closer start time.
                         dropOld = Math.abs(newStartInterval) < Math.abs(oldStartInterval);
