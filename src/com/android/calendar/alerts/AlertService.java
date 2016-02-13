@@ -105,8 +105,7 @@ public class AlertService extends Service {
 
     private static final int MINUTE_MS = 60 * 1000;
 
-    // The grace period before changing a notification's priority bucket.
-    private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 60 * MINUTE_MS;
+    // Grace period.
     private static final int GRACE_PERIOD_MS = 15 * MINUTE_MS;
 
     // Hard limit to the number of notifications displayed.
@@ -311,15 +310,11 @@ public class AlertService extends Service {
             Log.d(TAG, "alertCursor count:" + alertCursor.getCount());
         }
 
-        // Process the query results and bucketize events.
-        ArrayList<NotificationInfo> highPriorityEvents = new ArrayList<NotificationInfo>();
-        ArrayList<NotificationInfo> mediumPriorityEvents = new ArrayList<NotificationInfo>();
-        ArrayList<NotificationInfo> lowPriorityEvents = new ArrayList<NotificationInfo>();
-        int numFired = processQuery(alertCursor, context, currentTime, highPriorityEvents,
-                mediumPriorityEvents, lowPriorityEvents);
+        // Process the query results.
+        ArrayList<NotificationInfo> events = new ArrayList<NotificationInfo>();
+        int numFired = processQuery(alertCursor, context, currentTime, events);
 
-        if (highPriorityEvents.size() + mediumPriorityEvents.size()
-                + lowPriorityEvents.size() == 0) {
+        if (events.size() == 0) {
             nm.cancelAll();
             return true;
         }
@@ -329,82 +324,14 @@ public class AlertService extends Service {
         NotificationPrefs notificationPrefs = new NotificationPrefs(context, prefs,
                 (numFired == 0));
 
-        // If there are more high/medium priority events than we can show, bump some to
-        // the low priority digest.
-        redistributeBuckets(highPriorityEvents, mediumPriorityEvents, lowPriorityEvents,
-                maxNotifications);
-
-        // Post the individual higher priority events (future and recently started
-        // concurrent events).  Order these so that earlier start times appear higher in
+        // Post the individual events.  Order these so that earlier start times appear higher in
         // the notification list.
-        for (int i = 0; i < highPriorityEvents.size(); i++) {
-            NotificationInfo info = highPriorityEvents.get(i);
+        for (int i = 0; i < events.size(); i++) {
+            NotificationInfo info = events.get(i);
             String summaryText = AlertUtils.formatTimeLocation(context, info.startMillis,
                     info.allDay, info.location);
             postNotification(info, summaryText, context, true, notificationPrefs, nm,
                     currentNotificationId++);
-
-            // Keep concurrent events high priority (to appear higher in the notification list)
-            // until 15 minutes into the event.
-            nextRefreshTime = Math.min(nextRefreshTime, getNextRefreshTime(info, currentTime));
-        }
-
-        // Post the medium priority events (concurrent events that started a while ago).
-        // Order these so more recent start times appear higher in the notification list.
-        //
-        // TODO: Post these with the same notification priority level as the higher priority
-        // events, so that all notifications will be co-located together.
-        for (int i = mediumPriorityEvents.size() - 1; i >= 0; i--) {
-            NotificationInfo info = mediumPriorityEvents.get(i);
-            // TODO: Change to a relative time description like: "Started 40 minutes ago".
-            // This requires constant refreshing to the message as time goes.
-            String summaryText = AlertUtils.formatTimeLocation(context, info.startMillis,
-                    info.allDay, info.location);
-            postNotification(info, summaryText, context, false, notificationPrefs, nm,
-                    currentNotificationId++);
-
-            // Refresh when concurrent event ends so it will drop into the expired digest.
-            nextRefreshTime = Math.min(nextRefreshTime, getNextRefreshTime(info, currentTime));
-        }
-
-        // Post the low priority events as 1 combined notification.
-        int numLowPriority = lowPriorityEvents.size();
-        if (numLowPriority > 0) {
-            String expiredDigestTitle = getDigestTitle(lowPriorityEvents);
-            NotificationWrapper notification;
-            if (numLowPriority == 1) {
-                // If only 1 expired event, display an "old-style" basic alert.
-                NotificationInfo info = lowPriorityEvents.get(0);
-                String summaryText = AlertUtils.formatTimeLocation(context, info.startMillis,
-                        info.allDay, info.location);
-                notification = AlertReceiver.makeBasicNotification(context, info.eventName,
-                        summaryText, info.startMillis, info.endMillis, info.eventId,
-                        AlertUtils.EXPIRED_GROUP_NOTIFICATION_ID, false,
-                        Notification.PRIORITY_LOW);
-            } else {
-                // Multiple expired events are listed in a digest.
-                notification = AlertReceiver.makeDigestNotification(context,
-                    lowPriorityEvents, expiredDigestTitle, false);
-            }
-
-            // Add options for a quiet update.
-            addNotificationOptions(notification, true, expiredDigestTitle,
-                    notificationPrefs.getDefaultVibrate(),
-                    notificationPrefs.getRingtoneAndSilence(),
-                    false); /* Do not show the LED for the expired events. */
-
-            if (DEBUG) {
-              Log.d(TAG, "Quietly posting digest alarm notification, numEvents:" + numLowPriority
-                      + ", notificationId:" + AlertUtils.EXPIRED_GROUP_NOTIFICATION_ID);
-          }
-
-            // Post the new notification for the group.
-            nm.notify(AlertUtils.EXPIRED_GROUP_NOTIFICATION_ID, notification);
-        } else {
-            nm.cancel(AlertUtils.EXPIRED_GROUP_NOTIFICATION_ID);
-            if (DEBUG) {
-                Log.d(TAG, "No low priority events, canceling the digest notification.");
-            }
         }
 
         // Remove the notifications that are hanging around from the previous refresh.
@@ -438,119 +365,16 @@ public class AlertService extends Service {
         return true;
     }
 
-    /**
-     * Redistributes events in the priority lists based on the max # of notifications we
-     * can show.
-     */
-    static void redistributeBuckets(ArrayList<NotificationInfo> highPriorityEvents,
-            ArrayList<NotificationInfo> mediumPriorityEvents,
-            ArrayList<NotificationInfo> lowPriorityEvents, int maxNotifications) {
-
-        // If too many high priority alerts, shift the remaining high priority and all the
-        // medium priority ones to the low priority bucket.  Note that order is important
-        // here; these lists are sorted by descending start time.  Maintain that ordering
-        // so posted notifications are in the expected order.
-        if (highPriorityEvents.size() > maxNotifications) {
-            // Move mid-priority to the digest.
-            lowPriorityEvents.addAll(0, mediumPriorityEvents);
-
-            // Move the rest of the high priority ones (latest ones) to the digest.
-            List<NotificationInfo> itemsToMoveSublist = highPriorityEvents.subList(
-                    0, highPriorityEvents.size() - maxNotifications);
-            // TODO: What order for high priority in the digest?
-            lowPriorityEvents.addAll(0, itemsToMoveSublist);
-            if (DEBUG) {
-                logEventIdsBumped(mediumPriorityEvents, itemsToMoveSublist);
-            }
-            mediumPriorityEvents.clear();
-            // Clearing the sublist view removes the items from the highPriorityEvents list.
-            itemsToMoveSublist.clear();
-        }
-
-        // Bump the medium priority events if necessary.
-        if (mediumPriorityEvents.size() + highPriorityEvents.size() > maxNotifications) {
-            int spaceRemaining = maxNotifications - highPriorityEvents.size();
-
-            // Reached our max, move the rest to the digest.  Since these are concurrent
-            // events, we move the ones with the earlier start time first since they are
-            // further in the past and less important.
-            List<NotificationInfo> itemsToMoveSublist = mediumPriorityEvents.subList(
-                    spaceRemaining, mediumPriorityEvents.size());
-            lowPriorityEvents.addAll(0, itemsToMoveSublist);
-            if (DEBUG) {
-                logEventIdsBumped(itemsToMoveSublist, null);
-            }
-
-            // Clearing the sublist view removes the items from the mediumPriorityEvents list.
-            itemsToMoveSublist.clear();
-        }
-    }
-
-    private static void logEventIdsBumped(List<NotificationInfo> list1,
-            List<NotificationInfo> list2) {
-        StringBuilder ids = new StringBuilder();
-        if (list1 != null) {
-            for (NotificationInfo info : list1) {
-                ids.append(info.eventId);
-                ids.append(",");
-            }
-        }
-        if (list2 != null) {
-            for (NotificationInfo info : list2) {
-                ids.append(info.eventId);
-                ids.append(",");
-            }
-        }
-        if (ids.length() > 0 && ids.charAt(ids.length() - 1) == ',') {
-            ids.setLength(ids.length() - 1);
-        }
-        if (ids.length() > 0) {
-            Log.d(TAG, "Reached max postings, bumping event IDs {" + ids.toString()
-                    + "} to digest.");
-        }
-    }
-
-    private static long getNextRefreshTime(NotificationInfo info, long currentTime) {
-        long startAdjustedForAllDay = info.startMillis;
-        long endAdjustedForAllDay = info.endMillis;
-        if (info.allDay) {
-            Time t = new Time();
-            startAdjustedForAllDay = Utils.convertAlldayUtcToLocal(t, info.startMillis,
-                    Time.getCurrentTimezone());
-            endAdjustedForAllDay = Utils.convertAlldayUtcToLocal(t, info.startMillis,
-                    Time.getCurrentTimezone());
-        }
-
-        // We change an event's priority bucket at 15 minutes into the event or 1/4 event duration.
-        long nextRefreshTime = Long.MAX_VALUE;
-        long gracePeriodCutoff = startAdjustedForAllDay +
-                getGracePeriodMs(startAdjustedForAllDay, endAdjustedForAllDay, info.allDay);
-        if (gracePeriodCutoff > currentTime) {
-            nextRefreshTime = Math.min(nextRefreshTime, gracePeriodCutoff);
-        }
-
-        // ... and at the end (so expiring ones drop into a digest).
-        if (endAdjustedForAllDay > currentTime && endAdjustedForAllDay > gracePeriodCutoff) {
-            nextRefreshTime = Math.min(nextRefreshTime, endAdjustedForAllDay);
-        }
-        return nextRefreshTime;
-    }
 
     /**
-     * Processes the query results and bucketizes the alerts.
+     * Processes the query results.
      *
-     * @param highPriorityEvents This will contain future events, and concurrent events
-     *     that started recently (less than the interval DEPRIORITIZE_GRACE_PERIOD_MS).
-     * @param mediumPriorityEvents This will contain concurrent events that started
-     *     more than DEPRIORITIZE_GRACE_PERIOD_MS ago.
-     * @param lowPriorityEvents Will contain events that have ended.
+     * @param events This will contain all events
      * @return Returns the number of new alerts to fire.  If this is 0, it implies
      *     a quiet update.
      */
     static int processQuery(final Cursor alertCursor, final Context context,
-            final long currentTime, ArrayList<NotificationInfo> highPriorityEvents,
-            ArrayList<NotificationInfo> mediumPriorityEvents,
-            ArrayList<NotificationInfo> lowPriorityEvents) {
+            final long currentTime, ArrayList<NotificationInfo> events) {
         // Experimental reminder setting to only remind for events that have
         // been responded to with "yes" or "maybe".
         String skipRemindersPref = Utils.getSharedPreference(context,
@@ -795,8 +619,7 @@ public class AlertService extends Service {
                         // inefficiency of multiple removals shouldn't be a big deal to
                         // justify a more complicated data structure.  Expired events don't
                         // have individual notifications so we don't need to clean that up.
-                        highPriorityEvents.remove(oldInfo);
-                        mediumPriorityEvents.remove(oldInfo);
+                        events.remove(oldInfo);
                         if (DEBUG) {
                             Log.d(TAG, "Dropping alert for recurring event ID:" + oldInfo.eventId
                                     + ", startTime:" + oldInfo.startMillis
@@ -808,20 +631,8 @@ public class AlertService extends Service {
                     }
                 }
 
-                // TODO: Prioritize by "primary" calendar
                 eventIds.put(eventId, newInfo);
-                long highPriorityCutoff = currentTime -
-                        getGracePeriodMs(beginTime, endTime, allDay);
-
-                if (beginTimeAdjustedForAllDay > highPriorityCutoff) {
-                    // High priority = future events or events that just started
-                    highPriorityEvents.add(newInfo);
-                } else if (allDay && tz != null && DateUtils.isToday(beginTimeAdjustedForAllDay)) {
-                    // Medium priority = in progress all day events
-                    mediumPriorityEvents.add(newInfo);
-                } else {
-                    lowPriorityEvents.add(newInfo);
-                }
+                events.add(newInfo);
             }
             // TODO(psliwowski): move this to account synchronization
             GlobalDismissManager.processEventIds(context, eventIds.keySet());
@@ -833,18 +644,6 @@ public class AlertService extends Service {
         return numFired;
     }
 
-    /**
-     * High priority cutoff.
-     */
-    private static long getGracePeriodMs(long beginTime, long endTime, boolean allDay) {
-        if (allDay) {
-            // We don't want all day events to be high priority for hours, so automatically
-            // demote these after 15 min.
-            return GRACE_PERIOD_MS;
-        } else {
-            return MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
-        }
-    }
 
     private static String getDigestTitle(ArrayList<NotificationInfo> events) {
         StringBuilder digestTitle = new StringBuilder();
