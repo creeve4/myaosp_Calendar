@@ -107,7 +107,7 @@ public class AlertService extends Service {
 
     // The grace period before changing a notification's priority bucket.
     private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 720 * MINUTE_MS;
-    private static final int GRACE_PERIOD_MS = 15 * MINUTE_MS
+    private static final int GRACE_PERIOD_MS = 15 * MINUTE_MS;
 
     // Hard limit to the number of notifications displayed.
     public static final int MAX_NOTIFICATIONS = 20;
@@ -837,7 +837,13 @@ public class AlertService extends Service {
      * High priority cutoff.
      */
     private static long getGracePeriodMs(long beginTime, long endTime, boolean allDay) {
-        return MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
+        if (allDay) {
+            // We don't want all day events to be high priority for hours, so automatically
+            // demote these after 15 min.
+            return GRACE_PERIOD_MS;
+        } else {
+            return MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
+        }
     }
 
     private static String getDigestTitle(ArrayList<NotificationInfo> events) {
