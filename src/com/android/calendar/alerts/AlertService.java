@@ -106,7 +106,9 @@ public class AlertService extends Service {
     private static final int MINUTE_MS = 60 * 1000;
 
     // The grace period before changing a notification's priority bucket.
-    private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 720 * MINUTE_MS;
+    private static final int MIN_DEPRIORITIZE_GRACE_PERIOD_MS = 60 * MINUTE_MS;
+
+    private static final int GRACE_PERIOD_MS = 15 * MINUTE_MS;
 
     // Hard limit to the number of notifications displayed.
     public static final int MAX_NOTIFICATIONS = 20;
@@ -181,40 +183,10 @@ public class AlertService extends Service {
                     + " Action = " + action);
         }
 
-        // Some OEMs had changed the provider's EVENT_REMINDER broadcast to their own event,
-        // which broke our unbundled app's reminders.  So we added backup alarm scheduling to the
-        // app, but we know we can turn it off if we ever receive the EVENT_REMINDER broadcast.
-        boolean providerReminder = action.equals(
-                android.provider.CalendarContract.ACTION_EVENT_REMINDER);
-        if (providerReminder) {
-            if (sReceivedProviderReminderBroadcast == null) {
-                sReceivedProviderReminderBroadcast = Utils.getSharedPreference(this,
-                        PROVIDER_REMINDER_PREF_KEY, false);
-            }
-
-            if (!sReceivedProviderReminderBroadcast) {
-                sReceivedProviderReminderBroadcast = true;
-                Log.d(TAG, "Setting key " + PROVIDER_REMINDER_PREF_KEY + " to: true");
-                Utils.setSharedPreference(this, PROVIDER_REMINDER_PREF_KEY, true);
-            }
-        }
-
-        if (providerReminder ||
-                action.equals(Intent.ACTION_PROVIDER_CHANGED) ||
-                action.equals(android.provider.CalendarContract.ACTION_EVENT_REMINDER) ||
-                action.equals(AlertReceiver.EVENT_REMINDER_APP_ACTION) ||
-                action.equals(Intent.ACTION_LOCALE_CHANGED)) {
-
-            // b/7652098: Add a delay after the provider-changed event before refreshing
-            // notifications to help issue with the unbundled app installed on HTC having
-            // stale notifications.
-            if (action.equals(Intent.ACTION_PROVIDER_CHANGED)) {
-                try {
-                    Thread.sleep(5000);
-                } catch (Exception e) {
-                    // Ignore.
-                }
-            }
+        if (action.equals(Intent.ACTION_PROVIDER_CHANGED) ||
+            action.equals(android.provider.CalendarContract.ACTION_EVENT_REMINDER) ||
+            action.equals(AlertReceiver.EVENT_REMINDER_APP_ACTION) ||
+            action.equals(Intent.ACTION_LOCALE_CHANGED)) {
 
             // If we dismissed a notification for a new event, then we need to sync the cache when
             // an ACTION_PROVIDER_CHANGED event has been sent. Unfortunately, the data provider
@@ -524,14 +496,9 @@ public class AlertService extends Service {
         // We change an event's priority bucket at 15 minutes into the event or 1/4 event duration.
         long nextRefreshTime = Long.MAX_VALUE;
         long gracePeriodCutoff = startAdjustedForAllDay +
-                getGracePeriodMs(startAdjustedForAllDay, endAdjustedForAllDay, info.allDay);
+                getGracePeriodMs(startAdjustedForAllDay, endAdjustedForAllDay);
         if (gracePeriodCutoff > currentTime) {
             nextRefreshTime = Math.min(nextRefreshTime, gracePeriodCutoff);
-        }
-
-        // ... and at the end (so expiring ones drop into a digest).
-        if (endAdjustedForAllDay > currentTime && endAdjustedForAllDay > gracePeriodCutoff) {
-            nextRefreshTime = Math.min(nextRefreshTime, endAdjustedForAllDay);
         }
         return nextRefreshTime;
     }
@@ -811,7 +778,7 @@ public class AlertService extends Service {
                 // TODO: Prioritize by "primary" calendar
                 eventIds.put(eventId, newInfo);
                 long highPriorityCutoff = currentTime -
-                        getGracePeriodMs(beginTime, endTime, allDay);
+                        getDeprioritizeGracePeriodMs(beginTime, endTime);
 
                 if (beginTimeAdjustedForAllDay > highPriorityCutoff) {
                     // High priority = future events or events that just started
@@ -834,9 +801,13 @@ public class AlertService extends Service {
     }
 
     /**
-     * High priority cutoff should be 1/4 event duration or 15 min, whichever is longer.
+     * High priority cutoff.
      */
-    private static long getGracePeriodMs(long beginTime, long endTime, boolean allDay) {
+    private static long getGracePeriodMs(long beginTime, long endTime) {
+        return GRACE_PERIOD_MS;
+    }
+
+    private static long getDeprioritizeGracePeriodMs(long beginTime, long endTime) {
         return MIN_DEPRIORITIZE_GRACE_PERIOD_MS;
     }
 
@@ -877,7 +848,7 @@ public class AlertService extends Service {
         }
         addNotificationOptions(notification, quietUpdate, tickerText,
                 prefs.getDefaultVibrate(), ringtone,
-                true); /* Show the LED for these non-expired events */
+                false); /* Don't show the LED for these non-expired events */
 
         // Post the notification.
         notificationMgr.notify(notificationId, notification);
