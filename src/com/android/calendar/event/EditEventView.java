@@ -238,7 +238,7 @@ public class EditEventView implements View.OnClickListener, DialogInterface.OnCa
         }
 
         @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
             // Cache the member variables locally to avoid inner class overhead.
             Time startTime = mStartTime;
             Time endTime = mEndTime;
@@ -255,6 +255,7 @@ public class EditEventView implements View.OnClickListener, DialogInterface.OnCa
 
                 startTime.hour = hourOfDay;
                 startTime.minute = minute;
+                startTime.second = second;
                 startMillis = startTime.normalize(true);
 
                 // Also update the end time to keep the duration constant.
