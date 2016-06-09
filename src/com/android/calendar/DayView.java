@@ -1410,7 +1410,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
                 if (selectedEvent == null) {
                     // Switch to the EditEvent view
                     long startMillis = getSelectedTimeInMillis();
-                    long endMillis = startMillis + DateUtils.HOUR_IN_MILLIS;
+                    long endMillis = startMillis;
                     long extraLong = 0;
                     if (mSelectionAllday) {
                         extraLong = CalendarController.EXTRA_CREATE_ALL_DAY;
@@ -1446,7 +1446,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
             if (selectedEvent == null) {
                 // Switch to the EditEvent view
                 long startMillis = getSelectedTimeInMillis();
-                long endMillis = startMillis + DateUtils.HOUR_IN_MILLIS;
+                long endMillis = startMillis;
                 long extraLong = 0;
                 if (mSelectionAllday) {
                     extraLong = CalendarController.EXTRA_CREATE_ALL_DAY;
@@ -3900,7 +3900,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
             }
             mSelectionMode = SELECTION_SELECTED;
             mController.sendEventRelatedEventWithExtra(this, EventType.CREATE_EVENT, -1,
-                    getSelectedTimeInMillis(), 0, (int) ev.getRawX(), (int) ev.getRawY(),
+                    getSelectedTimeInMillis(), getSelectedTimeInMillis(), (int) ev.getRawX(), (int) ev.getRawY(),
                     extraLong, -1);
         } else if (mSelectedEvent != null) {
             // If the tap is on an event, launch the "View event" view
@@ -4460,7 +4460,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
                 }
                 case MENU_EVENT_CREATE: {
                     long startMillis = getSelectedTimeInMillis();
-                    long endMillis = startMillis + DateUtils.HOUR_IN_MILLIS;
+                    long endMillis = startMillis;
                     mController.sendEventRelatedEvent(this, EventType.CREATE_EVENT, -1,
                             startMillis, endMillis, 0, 0, -1);
                     break;
@@ -4964,8 +4964,8 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
                                 extraLong = CalendarController.EXTRA_CREATE_ALL_DAY;
                             }
                             mController.sendEventRelatedEventWithExtra(this,
-                                    EventType.CREATE_EVENT, -1, getSelectedTimeInMillis(), 0, -1,
-                                    -1, extraLong, -1);
+                                    EventType.CREATE_EVENT, -1, getSelectedTimeInMillis(), 
+                                    getSelectedTimeInMillis(), -1, -1, extraLong, -1);
                         }
                     }
                 }).show().setCanceledOnTouchOutside(true);
