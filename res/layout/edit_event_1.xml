@@ -33,8 +33,8 @@
             android:layout_width="0dip"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:paddingBottom="10dip"
-            android:paddingTop="10dip"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip"
             android:layout_marginLeft="12dip"
             android:layout_marginRight="12dip"
             android:gravity="center_vertical" />
@@ -72,16 +72,16 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textColor="#FFFFFFFF"
-                android:layout_marginLeft="24dip"
-                android:layout_marginRight="24dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
                 style="@style/TextAppearance.EditEvent_Value" />
             <TextView
                 android:id="@+id/calendar_textview_secondary"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:textColor="#FFFFFFFF"
-                android:layout_marginLeft="24dip"
-                android:layout_marginRight="24dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
                 android:textSize="14sp"
                 style="@style/TextAppearance.EditEvent_Value" />
         </LinearLayout>
@@ -107,32 +107,31 @@
         android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dip"
+        android:layout_marginTop="2dip"
         android:minHeight="48dip"
         android:hint="@string/hint_what"
         android:capitalize="sentences"
         android:inputType="textAutoCorrect|textCapSentences"
         android:focusable="true" />
 
-    <!-- WHERE -->
-    <LinearLayout android:id="@+id/where_row"
+    <!-- DESCRIPTION -->
+    <LinearLayout android:id="@+id/description_row"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-2dip"
         android:layout_marginBottom="6dip"
         android:focusable="true">
-        <AutoCompleteTextView
-            android:id="@+id/location"
-            android:singleLine="false"
+        <EditText
+            android:id="@+id/description"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_gravity="bottom"
             android:minHeight="48dip"
-            android:imeOptions="actionDone"
+            android:hint="@string/hint_description"
+            android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
             style="@style/TextAppearance.EditEvent_Value"
-            android:inputType="textAutoCorrect|textCapSentences"
-            android:hint="@string/hint_where" />
-    <View
-        style="@style/EditEventSeparator"/>
+            android:capitalize="sentences" />
     </LinearLayout>
 
     <!-- WHEN - Read-only textview version of FROM/TO (below) -->
@@ -166,7 +165,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="64dip">
+        android:minHeight="52dip">
         <TextView
             android:id="@+id/from_label"
             android:layout_height="wrap_content"
@@ -204,7 +203,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dip"
+        android:paddingBottom="0dip"
         android:layout_marginLeft="24dip"
         android:layout_marginRight="16dip"
         android:focusable="true">
@@ -228,7 +227,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="64dip">
+        android:minHeight="52dip">
         <TextView
             android:id="@+id/to_label"
             android:text="@string/edit_event_to_label"
@@ -268,7 +267,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dip"
+        android:paddingBottom="0dip"
         android:layout_marginLeft="24dip"
         android:layout_marginRight="16dip">
         <TextView android:id="@+id/end_date_home_tz"
@@ -290,7 +289,7 @@
         android:id="@+id/all_day_row"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginTop="4dip"
+        android:layout_marginTop="0dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="24dip">
@@ -347,7 +346,6 @@
             android:contentDescription="@string/accessibility_pick_time_zone"
             style="@style/TextAppearance.EditEvent_SpinnerButton" />
     </LinearLayout>
-
 
     <View
         style="@style/EditEventSeparator"/>
