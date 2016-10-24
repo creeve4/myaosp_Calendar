@@ -330,21 +330,6 @@ public class AlertReceiver extends BroadcastReceiver {
             // not be shown, and with no recipients, snooze will not be shown.
             // TODO: Get icons, get strings. Maybe show preview of actual location/number?
             int numActions = 0;
-            if (mapIntent != null && numActions < MAX_NOTIF_ACTIONS) {
-                notificationBuilder.addAction(R.drawable.ic_map,
-                        resources.getString(R.string.map_label), mapIntent);
-                numActions++;
-            }
-            if (callIntent != null && numActions < MAX_NOTIF_ACTIONS) {
-                notificationBuilder.addAction(R.drawable.ic_call,
-                        resources.getString(R.string.call_label), callIntent);
-                numActions++;
-            }
-            if (emailIntent != null && numActions < MAX_NOTIF_ACTIONS) {
-                notificationBuilder.addAction(R.drawable.ic_menu_email_holo_dark,
-                        resources.getString(R.string.email_guests_label), emailIntent);
-                numActions++;
-            }
             return notificationBuilder.getNotification();
 
         } else {
