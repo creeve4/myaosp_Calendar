@@ -289,6 +289,7 @@ public class AlertReceiver extends BroadcastReceiver {
         notificationBuilder.setSmallIcon(R.drawable.stat_notify_calendar);
         notificationBuilder.setContentIntent(clickIntent);
         notificationBuilder.setDeleteIntent(deleteIntent);
+        notificationBuilder.setColor(0xff43A047);
         if (doPopup) {
             notificationBuilder.setFullScreenIntent(createAlertActivityIntent(context), true);
         }
