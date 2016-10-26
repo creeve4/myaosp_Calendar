@@ -565,6 +565,8 @@ public class EditEventFragment extends Fragment implements EventHandler, OnColor
             view = inflater.inflate(R.layout.edit_event_single_column, null);
         } else {
             view = inflater.inflate(R.layout.edit_event, null);
+            View doneActionView = view.findViewById(R.id.action_done);
+            doneActionView.setOnClickListener(mActionBarListener);
         }
         mView = new EditEventView(mActivity, view, mOnDone, mTimeSelectedWasStartTime,
                 mDateSelectedWasStartDate);
