@@ -107,7 +107,8 @@
         android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="42dip"
+        android:layout_marginTop="2dip"
+        android:minHeight="48dip"
         android:hint="@string/hint_what"
         android:capitalize="sentences"
         android:inputType="textAutoCorrect|textCapSentences"
@@ -118,14 +119,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-6dip"
+        android:layout_marginTop="-2dip"
+        android:layout_marginBottom="6dip"
         android:focusable="true">
         <EditText
             android:id="@+id/description"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
-            android:minHeight="42dip"
+            android:minHeight="48dip"
             android:hint="@string/hint_description"
             android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
             style="@style/TextAppearance.EditEvent_Value"
@@ -138,8 +140,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:minHeight="42dip">
+        android:minHeight="48dip">
         <TextView
             android:text="@string/attendees_label"
             android:layout_height="0dip"
@@ -154,25 +155,6 @@
             android:hint="@string/hint_attendees"
             android:imeOptions="actionNext"
             style="@style/TextAppearance.EditEvent_Value" />
-    </LinearLayout>
-
-    <!-- WHERE -->
-    <LinearLayout android:id="@+id/where_row"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-18dip"
-        android:focusable="true">
-        <AutoCompleteTextView
-            android:id="@+id/location"
-            android:singleLine="false"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="42dip"
-            android:imeOptions="actionDone"
-            style="@style/TextAppearance.EditEvent_Value"
-            android:inputType="textAutoCorrect|textCapSentences"
-            android:hint="@string/hint_where" />
     </LinearLayout>
 
     <!-- WHEN - Read-only textview version of FROM/TO (below) -->
@@ -206,7 +188,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="32dip">
+        android:minHeight="52dip">
         <TextView
             android:id="@+id/from_label"
             android:layout_height="wrap_content"
@@ -268,8 +250,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-10dip"
-        android:minHeight="48dip">
+        android:minHeight="52dip">
         <TextView
             android:id="@+id/to_label"
             android:text="@string/edit_event_to_label"

@@ -93,6 +93,26 @@
             style="@style/TextAppearance.EditEvent_Value" />
     </LinearLayout>
 
+    <!-- WHERE -->
+    <LinearLayout android:id="@+id/where_row"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-13dip"
+        android:layout_marginBottom="6dip"
+        android:focusable="true">
+        <AutoCompleteTextView
+            android:id="@+id/location"
+            android:singleLine="false"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:minHeight="48dip"
+            android:imeOptions="actionDone"
+            style="@style/TextAppearance.EditEvent_Value"
+            android:inputType="textAutoCorrect|textCapSentences"
+            android:hint="@string/hint_where" />
+    </LinearLayout>
+
        <!-- PRESENCE - Show me as [busy | available] -->
     <LinearLayout
         android:id="@+id/availability_row"
