@@ -86,9 +86,8 @@ public class EditEventActivity extends AbstractCalendarActivity {
                     mEventInfo.id == -1 ? R.string.event_create : R.string.event_edit);
         }
         else {
-            getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-                    ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_HOME|
-                    ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
+            getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | 
+                ActionBar.DISPLAY_SHOW_CUSTOM);
         }
 
         if (mEditFragment == null) {

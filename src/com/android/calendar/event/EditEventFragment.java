@@ -577,8 +577,6 @@ public class EditEventFragment extends Fragment implements EventHandler, OnColor
                     new LinearLayout(mActivity), false);
             View cancelActionView = actionBarButtons.findViewById(R.id.action_cancel);
             cancelActionView.setOnClickListener(mActionBarListener);
-            View doneActionView = actionBarButtons.findViewById(R.id.action_done);
-            doneActionView.setOnClickListener(mActionBarListener);
 
             mActivity.getActionBar().setCustomView(actionBarButtons);
         }
