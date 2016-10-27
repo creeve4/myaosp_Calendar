@@ -93,6 +93,28 @@
             style="@style/TextAppearance.EditEvent_Value" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/add_attendees_row"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dip">
+        <TextView
+            android:text="@string/attendees_label"
+            android:layout_height="0dip"
+            android:layout_width="wrap_content"
+            style="@style/TextAppearance.EditEvent_LabelSmall" />
+        <com.android.ex.chips.RecipientEditTextView
+            android:id="@+id/attendees"
+            android:layout_marginTop="4dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress|textMultiLine|textCapWords"
+            android:hint="@string/hint_attendees"
+            android:imeOptions="actionNext"
+            style="@style/TextAppearance.EditEvent_Value" />
+    </LinearLayout>
+
     <!-- WHERE -->
     <LinearLayout android:id="@+id/where_row"
         android:orientation="vertical"
