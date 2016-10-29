@@ -135,32 +135,6 @@
             android:hint="@string/hint_where" />
     </LinearLayout>
 
-       <!-- PRESENCE - Show me as [busy | available] -->
-    <LinearLayout
-        android:id="@+id/availability_row"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
-        <TextView
-            android:id="@+id/presence_label"
-            android:text="@string/presence_label"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            style="@style/TextAppearance.EditEvent_LabelSmall"
-            android:paddingRight="4dip" />
-        <Spinner
-            android:id="@+id/availability"
-            android:entries="@array/availability"
-            style="@style/TextAppearance.EditEvent_Spinner"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginTop="12dip"
-            android:layout_marginLeft="16dip"
-            android:contentDescription="@string/accessibility_reminder_showmeas"
-            android:prompt="@string/presence_label" />
-    </LinearLayout>
-
         <!-- REMINDERS -->
     <LinearLayout
         android:id="@+id/reminders_row"
@@ -192,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
             android:gravity="top"
-            android:paddingBottom="14dp"
+            android:paddingBottom="8dp"
             android:layout_marginBottom="0dip"
             android:textAllCaps="false"
             android:textSize="18sp"
@@ -209,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
-        android:paddingBottom="2dp"
+        android:paddingBottom="0dp"
         android:focusable="true">
         <TextView
             android:id="@+id/repeats_label"
@@ -227,6 +201,32 @@
             android:gravity="left|center_vertical"
             android:contentDescription="@string/accessibility_pick_recurrence"
             style="@style/TextAppearance.EditEvent_SpinnerButton" />
+    </LinearLayout>
+
+    <!-- PRESENCE - Show me as [busy | available] -->
+    <LinearLayout
+        android:id="@+id/availability_row"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
+        <TextView
+            android:id="@+id/presence_label"
+            android:text="@string/presence_label"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/TextAppearance.EditEvent_LabelSmall"
+            android:paddingRight="4dip" />
+        <Spinner
+            android:id="@+id/availability"
+            android:entries="@array/availability"
+            style="@style/TextAppearance.EditEvent_Spinner"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dip"
+            android:layout_marginLeft="16dip"
+            android:contentDescription="@string/accessibility_reminder_showmeas"
+            android:prompt="@string/presence_label" />
     </LinearLayout>
 
         <!-- PRIVACY -->
