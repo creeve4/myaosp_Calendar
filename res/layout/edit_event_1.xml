@@ -286,15 +286,22 @@
             style="@style/TextAppearance.EditEvent_homeTime" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dip"
+        android:layout_marginBottom="6dip">
+
     <!-- ALL DAY -->
     <LinearLayout
         android:id="@+id/all_day_row"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginTop="0dip"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="24dip">
+        android:paddingTop="5dip">
         <CheckBox
             android:id="@+id/is_all_day"
             android:layout_height="match_parent"
@@ -302,7 +309,6 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:layout_marginLeft="18dip"
-            android:layout_marginRight="0dip"
             android:contentDescription="@string/accessibility_all_day"/>
         <TextView
             android:id="@+id/is_all_day_label"
@@ -322,8 +328,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-4dip"
-        android:minHeight="48dip"
+        android:layout_marginTop="-8dip"
         android:focusable="true">
         <TextView
             android:id="@+id/timezone_textView"
@@ -331,6 +336,7 @@
             android:layout_width="wrap_content"
             android:layout_marginLeft="24dip"
             android:layout_marginRight="24dip"
+            android:singleLine="true"
             style="@style/TextAppearance.EditEvent_Value" />
     </LinearLayout>
 
@@ -340,17 +346,18 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-4dip"
-        android:minHeight="48dip">
+        android:layout_marginTop="-10dip"
+        android:layout_marginBottom="-10dip"
+        android:layout_weight=".4">
         <Button
             android:id="@+id/timezone_button"
             android:gravity="left|center_vertical"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:paddingRight="20dip"
+            android:singleLine="true"
             android:contentDescription="@string/accessibility_pick_time_zone"
             style="@style/TextAppearance.EditEvent_SpinnerButton" />
     </LinearLayout>
-
-    <View
-        style="@style/EditEventSeparator"/>
+    </LinearLayout>
 </LinearLayout>

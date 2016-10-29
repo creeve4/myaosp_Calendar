@@ -202,15 +202,6 @@
         <item name="android:gravity">center_vertical|left</item>
     </style>
 
-    <style name="EditEventSeparator">
-        <item name="android:layout_height">15dip</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginTop">10dip</item>
-        <item name="android:layout_marginBottom">5dip</item>
-        <item name="android:background">@color/edit_event_separator</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
     <style name="EditEventCustomActionButton" parent="android:style/Widget.Material.Light.ActionButton">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
