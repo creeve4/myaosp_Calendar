@@ -345,7 +345,8 @@ public class CalendarViewAdapter extends BaseAdapter {
     private String buildFullDate() {
         mStringBuilder.setLength(0);
         String date = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR, mTimeZone).toString();
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH
+                , mTimeZone).toString();
         return date;
     }
 
@@ -357,14 +358,16 @@ public class CalendarViewAdapter extends BaseAdapter {
                 mMilliTime,
                 mMilliTime,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_MONTH_DAY
-                        | DateUtils.FORMAT_SHOW_YEAR, mTimeZone).toString();
+                        | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_ABBREV_MONTH
+                        , mTimeZone).toString();
         return date;
     }
 
     private String buildMonthDayDate() {
         mStringBuilder.setLength(0);
         String date = DateUtils.formatDateRange(mContext, mFormatter, mMilliTime, mMilliTime,
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR, mTimeZone).toString();
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH
+               , mTimeZone).toString();
         return date;
     }
 
@@ -376,7 +379,8 @@ public class CalendarViewAdapter extends BaseAdapter {
                 mMilliTime,
                 mMilliTime,
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR
-                        | DateUtils.FORMAT_NO_MONTH_DAY, mTimeZone).toString();
+                        | DateUtils.FORMAT_NO_MONTH_DAY | DateUtils.FORMAT_ABBREV_MONTH
+                        , mTimeZone).toString();
         return date;
     }
     private String buildWeekDate() {
