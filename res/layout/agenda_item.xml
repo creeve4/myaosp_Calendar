@@ -19,7 +19,7 @@
     android:id="@android:id/content"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:minHeight="64dip"
+    android:minHeight="60dip"
     android:columnCount="3"
     android:rowCount="2">
     <View
@@ -35,12 +35,10 @@
         android:layout_column="0"
         android:layout_row="1"
         android:layout_rowSpan="1"
-        android:layout_width="24dip"
-        android:layout_height="24dip"
-        android:layout_gravity="top|left"
-        android:layout_marginTop="8dip"
-        android:layout_marginBottom="8dip"
-        android:layout_marginLeft="16dip"
+        android:layout_width="10dip"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|left"
+        android:layout_marginLeft="8dip"
         android:layout_marginRight="8dip" />
 
     <LinearLayout
@@ -52,6 +50,8 @@
         android:layout_column="1"
         android:layout_row="1"
         android:layout_rowSpan="1"
+        android:layout_marginTop="4dip"
+        android:layout_marginBottom="4dip"
         android:orientation="vertical">
 
         <TextView
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:ellipsize="marquee"
             android:textColor="@color/agenda_item_standard_color"
@@ -72,18 +72,17 @@
             android:singleLine="true"
             android:textSize="14sp"
             android:ellipsize="marquee"
-            android:textColor="@color/agenda_item_where_text_color"
+            android:textColor="@color/agenda_item_standard_color"
             style="?android:attr/textAppearanceSmallInverse" />
 
         <TextView
             android:id="@+id/where"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-3dip"
             android:singleLine="true"
             android:ellipsize="marquee"
-            android:textSize="14sp"
-            android:textColor="@color/agenda_item_where_text_color"
+            android:textSize="12sp"
+            android:textColor="@color/agenda_item_standard_color"
             style="?android:attr/textAppearanceSmallInverse" />
     </LinearLayout>
     <ImageView
