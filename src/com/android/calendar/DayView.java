@@ -361,7 +361,7 @@ public class DayView extends View implements View.OnCreateContextMenuListener,
     private static final int DAY_GAP = 1;
     private static final int HOUR_GAP = 1;
     // This is the standard height of an allday event with no restrictions
-    private static int SINGLE_ALLDAY_HEIGHT = 23;
+    private static int SINGLE_ALLDAY_HEIGHT = 22;
     /**
     * This is the minimum desired height of a allday event.
     * When unexpanded, allday events will use this height.
