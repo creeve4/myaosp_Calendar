@@ -170,7 +170,7 @@
             android:layout_marginBottom="0dip"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="#FF777777"
+            android:textColor="#FFF44336"
             android:minHeight="10dip"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/accessibility_add_reminder"

@@ -284,7 +284,7 @@ public class EventViewUtils {
             int maxReminders) {
         View reminderAddButton = view.findViewById(R.id.reminder_add);
         if (reminderAddButton != null) {
-            if (reminders.size() >= maxReminders) {
+            if (reminders.size() >= 1) {
                 reminderAddButton.setEnabled(false);
                 reminderAddButton.setVisibility(View.GONE);
             } else {
